@@ -40,6 +40,7 @@
                         <p>
                             Categorías
                         </p>
+                    </a>
                 </li>
             </ul>
         </nav>
