@@ -1,5 +1,4 @@
 <div>
-    <h1>Componente Inicio</h1>
 
     <x-card cardTitle="Card Title" cardFooter="Card Footer">
 
