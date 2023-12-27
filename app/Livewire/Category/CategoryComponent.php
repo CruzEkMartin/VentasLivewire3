@@ -17,15 +17,16 @@ class CategoryComponent extends Component
     //propiedades de clase
     public $search = '';
     public $totalRegistros = 0;
-    public $cantRegistros=5;
+    public $cantRegistros = 5;
 
-    //propiedades de modelo
+    //propiedades de modelo, es el que se enlaza con el componente blade
     public $name;
+    public $categoryId; //no se puede usar la palabra id porque está reservada para livewire
 
     public function render()
     {
         //para aplicar busqueda en cualquier página seleccionada
-        if($this->search!=''){
+        if ($this->search != '') {
             $this->resetPage();
         }
 
@@ -44,6 +45,18 @@ class CategoryComponent extends Component
 
     public function mount()
     {
+
+    }
+
+    public function create()
+    {
+         //limpiamos el componente input del modal
+         $this->reset(['name']);
+         $this->categoryId=0;
+         //limpiar los errrores de validacion
+         $this->resetErrorBag();
+          //mandamos evento para abrir el modal junto con el id del modal a abrir
+        $this->dispatch('open-modal', 'modalCategory');
     }
 
     public function store()
@@ -54,7 +67,7 @@ class CategoryComponent extends Component
         ];
         $messages = [
             'name.required' => 'El nombre es requerido',
-            'name.min' => 'El nombre debe tener mínimo5 catacteres',
+            'name.min' => 'El nombre debe tener mínimo 5 catacteres',
             'name.max' => 'El nombre no debe superar los 255 caracteres',
             'name.unique' => 'El nombre de la categoría ya está en uso'
 
@@ -71,6 +84,43 @@ class CategoryComponent extends Component
 
         //mandamos evento para indicar que se guardo correctamente
         $this->dispatch('msg', 'Categoria creada correctamente');
+
+        //limpiamos el componente input del modal
+        $this->reset(['name']);
+    }
+
+    public function edit(Category $category)
+    {
+        $this->categoryId = $category->id;
+        $this->name = $category->name;
+
+        //mandamos evento para abrir el modal junto con el id del modal a abrir
+        $this->dispatch('open-modal', 'modalCategory');
+    }
+
+    public function update(Category $category)
+    {
+        $rules = [
+            'name' => 'required|min:5|max:255|unique:categories,id,'.$this->categoryId
+        ];
+        $messages = [
+            'name.required' => 'El nombre es requerido',
+            'name.min' => 'El nombre debe tener mínimo 5 catacteres',
+            'name.max' => 'El nombre no debe superar los 255 caracteres',
+            'name.unique' => 'El nombre de la categoría ya está en uso'
+
+        ];
+
+        $this->validate($rules, $messages);
+
+        $category->name = $this->name;
+        $category->update();
+
+        //mandamos evento para cerrar el modal junto con el id del modal a cerrar
+        $this->dispatch('close-modal', 'modalCategory');
+
+        //mandamos evento para indicar que se actualizó correctamente
+        $this->dispatch('msg', 'Categoria actualizada correctamente');
 
         //limpiamos el componente input del modal
         $this->reset(['name']);
