@@ -1,6 +1,6 @@
 <div>
 
-    <x-card cardTitle="Listado Categorías ({{ $this->totalRegistros }})" cardFooter="Card Footer">
+    <x-card cardTitle="Listado Categorías ({{ $this->totalRegistros }})" >
 
         <x-slot:cardTools>
             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modalCategory">Crear categoría</a>
@@ -18,9 +18,10 @@
             </x-slot:thead>
 
 
+            @forelse ($categories as $category )
             <tr>
-                <td>...</td>
-                <td>...</td>
+                <td>{{ $category->id }}</td>
+                <td>{{ $category->name }}</td>
                 <td>
                     <a href="#" class="btn btn-success btn-xs" title="Ver">
                         <i class="far fa-eye"></i>
@@ -38,18 +39,27 @@
                 </td>
             </tr>
 
+            @empty
+                <tr class="text-center">
+                    <td colspan="5">Sin registros</td>
+                </tr>
+            @endforelse
+
         </x-table>
 
+        <x-slot:cardFooter>
+            {{ $categories->links() }}
+        </x-slot:cardFooter>
     </x-card>
 
     <x-modal modalId="modalCategory" modalTitle="Categorias">
         <form wire:submit="store">
 
-            <div class="row">
-                <div class="col">
-
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <label for="name">Nombre:</label>
                     <input type="text" wire:model.live='name' class="form-control"
-                        placeholder="Nombre de la categoría">
+                        placeholder="Nombre de la categoría" id="name">
                     @Error('name')
                         <div class="alert alert-danger w-100 mt-2">{{ $message }}</div>
                     @enderror
@@ -57,7 +67,7 @@
             </div>
 
             <hr>
-            <button type="submit" class="btn btn-primary float-right">Save changes</button>
+            <button type="submit" class="btn btn-primary float-right">Guardar</button>
         </form>
     </x-modal>
 

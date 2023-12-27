@@ -1,7 +1,7 @@
 <div class="mb-3 d-flex justify-content-between">
     <div>
         <span>Mostrar</span>
-        <select>
+        <select wire:model.live='cantRegistros'>
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="25">25</option>
@@ -11,7 +11,7 @@
         <span>Entradas</span>
     </div>
     <div>
-        <input type="text" class="form-control" placeholder="Buscar...">
+        <input type="text" wire:model.live='search' class="form-control" placeholder="Buscar...">
     </div>
 </div>
 

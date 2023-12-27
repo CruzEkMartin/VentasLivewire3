@@ -12,6 +12,8 @@
         {{ $slot }}
     </div>
     <div class="card-footer">
+        <div class="float-right">
         {{ $cardFooter }}
+    </div>
     </div>
 </div>
