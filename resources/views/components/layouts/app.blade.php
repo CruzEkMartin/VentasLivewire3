@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? config('app.name')}}</title>
+    <title>{{ $title ?? config('app.name') }}</title>
 
     @include('components.layouts.partials.styles')
 
@@ -36,7 +36,7 @@
             <section class="content">
                 <div class="container-fluid">
 
-                     @livewire('messages')
+                    @livewire('messages')
 
                     {{ $slot }}
                 </div><!--/. container-fluid -->
@@ -57,21 +57,43 @@
     @include('components.layouts.partials.scripts')
 
     <!-- PLUGINS -->
-<script>
-    document.addEventListener('livewire:init',()=>{
-        Livewire.on('close-modal',(idModal)=>{
-            $('#'+idModal).modal('hide');
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('close-modal', (idModal) => {
+                $('#' + idModal).modal('hide');
+            })
         })
-    })
 
 
-    document.addEventListener('livewire:init',()=>{
-        Livewire.on('open-modal',(idModal)=>{
-            $('#'+idModal).modal('show');
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('open-modal', (idModal) => {
+                $('#' + idModal).modal('show');
+            })
         })
-    })
 
-</script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('delete', (e) => {
+                alert(e.id+'-'+e.componente)
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    }
+                });
+            })
+        })
+    </script>
 </body>
 
 </html>
