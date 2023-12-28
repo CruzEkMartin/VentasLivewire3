@@ -7,5 +7,5 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.js')}}"></script>
 
-<!-- AdminLTE App -->
+<!-- Sweet Alert2-->
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.js')}}"></script>
