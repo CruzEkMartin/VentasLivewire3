@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Category;
 
-use App\Models\Category;
 use Livewire\Component;
-use Livewire\Attributes\Title;
+use App\Models\Category;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
 
 #[Title('Categorías')]
 
@@ -45,17 +46,16 @@ class CategoryComponent extends Component
 
     public function mount()
     {
-
     }
 
     public function create()
     {
-         //limpiamos el componente input del modal
-         $this->reset(['name']);
-         $this->categoryId=0;
-         //limpiar los errrores de validacion
-         $this->resetErrorBag();
-          //mandamos evento para abrir el modal junto con el id del modal a abrir
+        //limpiamos el componente input del modal
+        $this->reset(['name']);
+        $this->categoryId = 0;
+        //limpiar los errrores de validacion
+        $this->resetErrorBag();
+        //mandamos evento para abrir el modal junto con el id del modal a abrir
         $this->dispatch('open-modal', 'modalCategory');
     }
 
@@ -101,7 +101,7 @@ class CategoryComponent extends Component
     public function update(Category $category)
     {
         $rules = [
-            'name' => 'required|min:5|max:255|unique:categories,id,'.$this->categoryId
+            'name' => 'required|min:5|max:255|unique:categories,id,' . $this->categoryId
         ];
         $messages = [
             'name.required' => 'El nombre es requerido',
@@ -124,5 +124,13 @@ class CategoryComponent extends Component
 
         //limpiamos el componente input del modal
         $this->reset(['name']);
+    }
+
+
+    #[On('destroyCategory')]
+    public function destroy($id)
+    {
+
+        dump($id);
     }
 }
