@@ -4,8 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard </title>
+    <title>{{ $title ?? config('app.name') }}</title>
 
+    @include('components.layouts.partials.styles')
 
 </head>
 
@@ -28,21 +29,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Inicio</h1>
-                        </div><!-- /.col -->
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
-                            </ol>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
+            @include('components.layouts.partials.content_header')
             <!-- /.content-header -->
 
 
@@ -62,12 +49,12 @@
 
 
         <!-- Main Footer -->
-@include('components.layouts.partials.footer')
+        @include('components.layouts.partials.footer')
     </div>
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
-
+    @include('components.layouts.partials.scripts')
 
     <!-- PLUGINS -->
 
