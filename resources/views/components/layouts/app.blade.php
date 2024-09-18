@@ -38,6 +38,8 @@
             <section class="content">
                 <div class="container-fluid">
 
+                    @livewire('messages')
+
                     {{ $slot }}
 
                 </div><!--/. container-fluid -->
@@ -57,6 +59,15 @@
     @include('components.layouts.partials.scripts')
 
     <!-- PLUGINS -->
+
+    <script>
+        document.addEventListener('livewire:init',()=>{
+            Livewire.on('close-modal',(idModal)=>{
+                $('#'+idModal).modal('hide');
+            })
+        })
+    </script>
+
 
 </body>
 
