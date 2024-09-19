@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Category\CategoryComponent;
+use App\Livewire\Category\CategoryShow;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Home\Inicio;
 
@@ -27,3 +28,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/inicio', Inicio::class)->name('inicio');
 Route::get('/categorias', CategoryComponent::class)->name('categorias');
+Route::get('/categorias/show/{category}', CategoryShow::class)->name('categorias.show');

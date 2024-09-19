@@ -22,6 +22,7 @@ class CategoryComponent extends Component
 
     //propiedades de modelo
     public $name;
+    public $Id=0;
 
     public function render()
     {
@@ -42,6 +43,13 @@ class CategoryComponent extends Component
     }
 
     public function mount() {}
+
+    public function create(){
+        $this->Id = 0;
+        $this->reset(['name']);
+        $this->resetErrorBag();
+        $this->dispatch('open-modal', 'modalCategoria');
+    }
 
     //crear la categoría
     public function store()
@@ -65,6 +73,39 @@ class CategoryComponent extends Component
 
         $this->dispatch('close-modal', 'modalCategoria');
         $this->dispatch('msg', 'Categoría creada correctamente');
+
+        $this->reset(['name']);
+    }
+
+
+    public function edit(Category $category){
+        //dump($category);
+        $this->Id = $category->id;
+        $this->name = $category->name;
+
+        $this->dispatch('open-modal', 'modalCategoria');
+
+    }
+
+    public function update(Category $category){
+        //dump($category);
+        $rules = [
+            'name' => 'required|min:5|max:255|unique:categories,id,' . $this->Id
+        ];
+        $messages = [
+            'name.required' => 'El nombre de la categoría es requerido',
+            'name.min' => 'El nombre debe tener un mínimo de 5 caracteres',
+            'name.max' => 'El nombre no debe superar los 255 caracteres',
+            'name.unique' => 'El nombre de la categoría ya está en uso',
+        ];
+
+        $this->validate($rules, $messages);
+
+        $category->name = $this->name;
+        $category->update();
+
+        $this->dispatch('close-modal', 'modalCategoria');
+        $this->dispatch('msg', 'Categoría actualizada correctamente');
 
         $this->reset(['name']);
     }

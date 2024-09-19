@@ -2,7 +2,7 @@
 
     <x-card cardTitle="Listado de categorias ({{ $this->totalRegistros }})">
         <x-slot:cardTools>
-            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modalCategoria">Crear categoría</a>
+            <a href="#" class="btn btn-primary" wire:click='create'><i class="fas fa-plus-circle mr-1"></i> Crear categoría</a>
         </x-slot:cardTools>
 
         <x-table>
@@ -18,8 +18,8 @@
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
                     <td>
-                        <a href="#" title="Ver" class="btn btn-success btn-xs mr-2"><i class="far fa-eye"></i></a>
-                        <a href="#" title="Editar" class="btn btn-primary btn-xs mr-2"><i
+                        <a href="{{ route('categorias.show', $category) }}" title="Ver" class="btn btn-success btn-xs mr-2"><i class="far fa-eye"></i></a>
+                        <a href="#" wire:click='edit({{ $category->id }})' title="Editar" class="btn btn-primary btn-xs mr-2"><i
                                 class="far fa-edit"></i></a>
                         <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i
                                 class="far fa-trash-alt"></i></a>
@@ -42,7 +42,7 @@
 
     <x-modal modalId="modalCategoria" modalTitle="Categorias">
 
-        <form wire:submit="store">
+        <form wire:submit={{ $Id == 0 ? "store" : "update($Id)" }}>
             <div class="form-row">
                 <div class="form-group col-12">
                     <label for="name">Nombre:</label>
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <hr>
-            <button class="btn btn-primary float-right">Guardar</button>
+            <button class="btn btn-primary float-right">{{ $Id==0 ? 'Guardar' : 'Actualizar' }}</button>
         </form>
 
     </x-modal>
