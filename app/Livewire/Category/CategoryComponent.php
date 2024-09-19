@@ -4,6 +4,7 @@ namespace App\Livewire\Category;
 
 use Livewire\Component;
 use App\Models\Category;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 
@@ -18,11 +19,11 @@ class CategoryComponent extends Component
     //Propiedades de clase
     public $search = '';
     public $totalRegistros = 0;
-    public $cant=5;
+    public $cant = 5;
 
     //propiedades de modelo
     public $name;
-    public $Id=0;
+    public $Id = 0;
 
     public function render()
     {
@@ -44,7 +45,8 @@ class CategoryComponent extends Component
 
     public function mount() {}
 
-    public function create(){
+    public function create()
+    {
         $this->Id = 0;
         $this->reset(['name']);
         $this->resetErrorBag();
@@ -78,16 +80,17 @@ class CategoryComponent extends Component
     }
 
 
-    public function edit(Category $category){
+    public function edit(Category $category)
+    {
         //dump($category);
         $this->Id = $category->id;
         $this->name = $category->name;
 
         $this->dispatch('open-modal', 'modalCategoria');
-
     }
 
-    public function update(Category $category){
+    public function update(Category $category)
+    {
         //dump($category);
         $rules = [
             'name' => 'required|min:5|max:255|unique:categories,id,' . $this->Id
@@ -108,5 +111,17 @@ class CategoryComponent extends Component
         $this->dispatch('msg', 'Categoría actualizada correctamente');
 
         $this->reset(['name']);
+    }
+
+    #[On('destroyCategory')]
+    public function destroy($id)
+    {
+        //dump($id);
+        $category = Category::findOrfail($id);
+        //dump($category);
+        $category->delete();
+
+        $this->dispatch('msg', 'La Categoría ha sido eliminada correctamente');
+
     }
 }

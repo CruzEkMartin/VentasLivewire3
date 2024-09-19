@@ -7,3 +7,7 @@
 <link rel="stylesheet" href="{{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
 <!-- Theme style -->
 <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="{{asset('plugins/sweetalert2/sweetalert2.css')}}">
+<!-- ICheck -->
+<link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">

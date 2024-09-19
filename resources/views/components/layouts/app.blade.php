@@ -15,7 +15,7 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="{{asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTELogo" height="60"
+            <img class="animation__wobble" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60"
                 width="60">
         </div>
 
@@ -61,19 +61,42 @@
     <!-- PLUGINS -->
 
     <script>
-        document.addEventListener('livewire:init',()=>{
-            Livewire.on('close-modal',(idModal)=>{
-                $('#'+idModal).modal('hide');
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('close-modal', (idModal) => {
+                $('#' + idModal).modal('hide');
             })
         })
 
 
-        document.addEventListener('livewire:init',()=>{
-            Livewire.on('open-modal',(idModal)=>{
-                $('#'+idModal).modal('show');
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('open-modal', (idModal) => {
+                $('#' + idModal).modal('show');
             })
         })
 
+
+
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('delete', (e) => {
+                //  alert(e.id+'-'+e.eventName)
+                Swal.fire({
+                    title: "Estás Seguro ?",
+                    text: "Esta acción NO se puede revertir!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, eliminar!",
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.dispatch(e.eventName, {
+                            id: e.id
+                        })
+                    }
+                });
+            })
+        })
     </script>
 
 

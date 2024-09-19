@@ -21,7 +21,7 @@
                         <a href="{{ route('categorias.show', $category) }}" title="Ver" class="btn btn-success btn-xs mr-2"><i class="far fa-eye"></i></a>
                         <a href="#" wire:click='edit({{ $category->id }})' title="Editar" class="btn btn-primary btn-xs mr-2"><i
                                 class="far fa-edit"></i></a>
-                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i
+                        <a wire:click="$dispatch('delete',{id: {{ $category->id }}, eventName: 'destroyCategory'})" title="Eliminar" class="btn btn-danger btn-xs"><i
                                 class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
