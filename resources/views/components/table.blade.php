@@ -17,7 +17,7 @@
 </div>
 
 <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover text-center">
         <thead>
             <tr>
                 {{ $thead }}

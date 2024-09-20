@@ -1,10 +1,11 @@
 <?php
 
-use App\Livewire\Category\CategoryComponent;
-use App\Livewire\Category\CategoryShow;
-use Illuminate\Support\Facades\Route;
 use App\Livewire\Home\Inicio;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Livewire\Category\CategoryShow;
 use App\Livewire\Product\ProductComponent;
+use App\Livewire\Category\CategoryComponent;
 
 /*
 |--------------------------------------------------------------------------

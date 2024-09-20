@@ -23,10 +23,10 @@
                     <td>{{ $producto->id }}</td>
                     <td><x-image :item="$producto"/></td>
                     <td>{{ $producto->name }}</td>
-                    <td>{{ $producto->precio_venta }}</td>
+                    <td>{!! $producto->precio !!}</td>
                     <td>{!! $producto->stockLabel !!}</td>
-                    <td>{{ $producto->category_id }}</td>
-                    <td>{{ $producto->active ? "Activo" : "Inactivo" }}</td>
+                    <td><a class="badge badge-secondary" href="{{ route('categorias.show', $producto->category_id) }}">{{ $producto->category->name }}</a></td>
+                    <td>{!!  $producto->activeLabel !!}</td>
                     <td>
                         <a href="{{ route('productos.show', $producto) }}" title="Ver" class="btn btn-success btn-xs mr-2"><i class="far fa-eye"></i></a>
                         <a href="#" wire:click='edit({{ $producto->id }})' title="Editar" class="btn btn-primary btn-xs mr-2"><i
