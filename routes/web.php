@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Category\CategoryShow;
 use App\Livewire\Product\ProductComponent;
 use App\Livewire\Category\CategoryComponent;
+use App\Livewire\Product\ProductShow;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,4 @@ Route::get('/categorias', CategoryComponent::class)->name('categorias');
 Route::get('/categorias/show/{category}', CategoryShow::class)->name('categorias.show');
 
 Route::get('/productos', ProductComponent::class)->name('productos');
-Route::get('/productos/show/{producto}', CategoryShow::class)->name('productos.show');
+Route::get('/productos/show/{producto}', ProductShow::class)->name('productos.show');

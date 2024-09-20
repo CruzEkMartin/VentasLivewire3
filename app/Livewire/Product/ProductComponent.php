@@ -5,11 +5,12 @@ namespace App\Livewire\Product;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\Category;
-use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Storage;
 
 #[Title('Productos')]
 class ProductComponent extends Component
@@ -185,6 +186,25 @@ class ProductComponent extends Component
 
         $this->clean();
     }
+
+
+    #[On('destroyProducto')]
+    public function destroy($id)
+    {
+        //dump($id);
+        $producto = Product::findOrfail($id);
+        //dump($category);
+
+        if ($producto->image != null) {
+            Storage::delete('public/' . $producto->image->url);
+            $producto->image()->delete();
+        }
+
+        $producto->delete();
+
+        $this->dispatch('msg', 'El producto ha sido eliminada correctamente');
+    }
+
 
 
     //método encargado de la limpieza

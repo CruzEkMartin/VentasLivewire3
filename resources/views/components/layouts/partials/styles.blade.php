@@ -11,3 +11,5 @@
 <link rel="stylesheet" href="{{asset('plugins/sweetalert2/sweetalert2.css')}}">
 <!-- ICheck -->
 <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+<!-- Estilos Personalizados-->
+<link rel="stylesheet" href="{{asset('css/styles.css')}}">
