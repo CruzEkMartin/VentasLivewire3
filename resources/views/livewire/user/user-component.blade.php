@@ -21,13 +21,13 @@
             @forelse ($usuarios as $usuario)
                 <tr>
                     <td>{{ $usuario->id }}</td>
-                    <td> <x-image :item="$user" /> </td>
+                    <td> <x-image :item="$usuario" /> </td>
                     <td>{{ $usuario->name }}</td>
                     <td>{{ $usuario->email }}</td>
-                    <td>{{ $usuario->admin }}</td>
-                    <td>{{ $usuario->active }}</td>
+                    <td>{{ $usuario->admin ? 'Administrador' : 'Captura' }}</td>
+                    <td>{!! $usuario->activeLabel !!}</td>
                     <td>
-                        <a href="{{ route('usuario.show', $usuario) }}" class="btn btn-success btn-sm" title="Ver">
+                        <a href="{{ route('usuarios.show', $usuario) }}" class="btn btn-success btn-sm" title="Ver">
                             <i class="far fa-eye"></i>
                         </a>
                         <a href="#" wire:click='edit({{ $usuario->id }})' class="btn btn-primary btn-sm"
@@ -117,12 +117,16 @@
                 {{-- Input image --}}
                 <div class="form-group col-md-6">
                     <label for="image">Imagen</label>
+                    <br>
                     <input wire:model='image' type="file" id="image" accept="image/*">
                 </div>
 
                 <div class="col-md-12">
+                    @if ($Id > 0)
+                        <x-image :item="$usuario = App\Models\User::find($Id)" size="200" float="float-right"> </x-image>
+                    @endif
                     @if ($this->image)
-                        <img src="{{ $image->temporaryUrl() }}" class="rounded float-right" width="200">
+                        <img src="{{ $image->temporaryUrl() }}" class="rounded float-left" width="200">
                     @endif
                 </div>
             </div>

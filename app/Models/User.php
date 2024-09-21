@@ -3,10 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
@@ -43,7 +46,33 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    //atributos
+    protected function activeLabel() : Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->attributes['active'] ?
+                '<span class="badge badge-success">Activo</span>' :
+                '<span class="badge badge-warning">Inactivo</span>';
+            }
+        );
+    }
+
     public function image(){
         return $this->morphOne('App\Models\Image','imageable');
     }
+
+
+
+
+    protected function imagen() : Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->image ? Storage::url('public/'.$this->image->url) : asset('img/no-image.png') ;
+            }
+        );
+    }
+
+
 }
