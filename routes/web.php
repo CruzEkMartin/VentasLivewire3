@@ -7,6 +7,7 @@ use App\Livewire\Category\CategoryShow;
 use App\Livewire\Product\ProductComponent;
 use App\Livewire\Category\CategoryComponent;
 use App\Livewire\Product\ProductShow;
+use App\Livewire\User\UserComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,6 @@ Route::get('/categorias/show/{category}', CategoryShow::class)->name('categorias
 
 Route::get('/productos', ProductComponent::class)->name('productos');
 Route::get('/productos/show/{producto}', ProductShow::class)->name('productos.show');
+
+Route::get('/usuarios', UserComponent::class)->name('usuarios');
+Route::get('/usuarios/show/{usuario}', UserComponent::class)->name('usuarios.show');

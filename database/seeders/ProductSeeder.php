@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ProductSeeder extends Seeder
 {
@@ -14,10 +15,12 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        //eliminar imagenes productos
+        Storage::deleteDirectory('public/products');
+        Storage::makeDirectory('public/products');
 
 
-        Product::factory(20)->create()->each(function (Product $producto) {
+        Product::factory(250)->create()->each(function (Product $producto) {
 
             $faker = Faker::create();
 
