@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Category\CategoryShow;
 use App\Livewire\Product\ProductComponent;
 use App\Livewire\Category\CategoryComponent;
+use App\Livewire\Client\ClientComponent;
 use App\Livewire\Product\ProductShow;
 use App\Livewire\User\UserComponent;
 use App\Livewire\User\UserShow;
@@ -21,16 +22,16 @@ use App\Livewire\User\UserShow;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Auth::routes();
+Auth::routes(['register'=>false]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::get('/inicio', Inicio::class)->name('inicio')->middleware(['auth']);
+Route::get('/', Inicio::class)->name('home')->middleware(['auth']);
 Route::get('/categorias', CategoryComponent::class)->name('categorias')->middleware(['auth']);
 Route::get('/categorias/show/{category}', CategoryShow::class)->name('categorias.show')->middleware(['auth']);
 
@@ -39,3 +40,5 @@ Route::get('/productos/show/{producto}', ProductShow::class)->name('productos.sh
 
 Route::get('/usuarios', UserComponent::class)->name('usuarios')->middleware(['auth']);
 Route::get('/usuarios/show/{usuario}', UserShow::class)->name('usuarios.show')->middleware(['auth']);
+
+Route::get('/clientes', ClientComponent::class)->name('clientes')->middleware(['auth']);

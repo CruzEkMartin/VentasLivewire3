@@ -22,8 +22,8 @@ class CategoryComponent extends Component
     public $cant = 5;
 
     //propiedades de modelo
-    public $name;
     public $Id = 0;
+    public $name;
 
     public function render()
     {
