@@ -2,15 +2,63 @@
 <html lang="es">
 
 <head>
+    <link rel="shortcut icon" href="img/icono.ico" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? config('app.name') }}</title>
 
     @include('components.layouts.partials.styles')
 
+    <style>
+        .colored-toast.swal2-icon-success {
+            background-color: #21A64C !important;
+        }
+
+        .colored-toast.swal2-icon-error {
+            background-color: #e70b0b !important;
+        }
+
+        .colored-toast.swal2-icon-warning {
+            background-color: #ee8b35 !important;
+        }
+
+        .colored-toast.swal2-icon-info {
+            background-color: #3fc3ee !important;
+        }
+
+        .colored-toast.swal2-icon-question {
+            background-color: #87adbd !important;
+        }
+
+        .colored-toast .swal2-title {
+            color: white;
+        }
+
+        .colored-toast .swal2-close {
+            color: white;
+        }
+
+        .colored-toast .swal2-html-container {
+            color: white;
+        }
+
+        .not-active {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .active {
+            background-color: #B68400 !important;
+            font-weight: bold;
+            color: white !important;
+        }
+    </style>
+
+@yield('css')
+
 </head>
 
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->

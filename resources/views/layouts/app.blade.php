@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    <link rel="shortcut icon" href="img/icono.ico" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,10 +18,37 @@
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 <link rel="stylesheet" href="{{ asset('css/bootstrap@5.3.3.min.css') }}">
 
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+    }
+
+    .primario {
+        background-color: #ab0a3d !important;
+        color: #eaeaea !important;
+    }
+
+    .secundario {
+        background-color: #440412 !important;
+        color: ;
+    }
+
+    .terciario {
+        background-color: #B68400 !important;
+        color: ;
+    }
+</style>
+
 </head>
-<body>
+<body style="background-image: url('/img/back.png'); width: 100%;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light primario bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}

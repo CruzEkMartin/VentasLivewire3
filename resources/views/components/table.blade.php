@@ -18,7 +18,7 @@
 
 <div class="table-responsive">
     <table class="table table-striped table-hover text-center">
-        <thead>
+        <thead style="background-color: #b0aba1;">
             <tr>
                 {{ $thead }}
             </tr>

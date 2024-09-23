@@ -4,9 +4,9 @@
   <div wire:ignore.self class="modal fade" id="{{ $modalId }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog {{  $modalSize }}">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" style="background-color: #b68400;">
           <h5 class="modal-title" id="exampleModalLabel">{{ $modalTitle }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

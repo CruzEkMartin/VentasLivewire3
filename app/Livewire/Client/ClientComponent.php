@@ -22,6 +22,12 @@ class ClientComponent extends Component
     //propiedades de modelo
     public $Id = 0;
     public $name;
+    public $identificacion;
+    public $telefono;
+    public $email;
+    public $empresa;
+    public $nit;
+
 
 
     public function render()
@@ -41,5 +47,60 @@ class ClientComponent extends Component
         return view('livewire.client.client-component',[
             'clientes' => $clientes
         ]);
+    }
+
+    public function create()
+    {
+        $this->Id = 0;
+
+        $this->clean();
+        $this->dispatch('open-modal', 'modalCliente');
+    }
+
+
+    //crear al cliente
+    public function store()
+    {
+        // dump("crear");
+        $rules = [
+            'name' => 'required|min:5|max:255',
+            'identificacion' => 'required|max:15|unique:clients',
+            'email' => 'max:255|email|nullable',
+        ];
+
+        $this->validate($rules);
+
+        $cliente = new Client();
+        $cliente->name = $this->name;
+        $cliente->identificacion = $this->identificacion;
+        $cliente->email = $this->email;
+        $cliente->empresa = $this->empresa;
+        $cliente->nit = $this->nit;
+        $cliente->save();
+
+        $this->dispatch('close-modal', 'modalCliente');
+        $this->dispatch('msg', 'Cliente creado correctamente');
+
+        $this->clean();
+    }
+
+
+    public function edit(Client $cliente)
+    {
+        //dump($cliente);
+        $this->Id = $cliente->id;
+        $this->name = $cliente->name;
+
+        $this->dispatch('open-modal', 'modalCliente');
+    }
+
+
+    //método encargado de la limpieza
+    public function clean()
+    {
+        $this->Id = 0;
+
+        $this->reset(['Id', 'name', 'identificacion', 'telefono', 'email', 'empresa', 'nit']);
+        $this->resetErrorBag();
     }
 }
