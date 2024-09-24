@@ -4,6 +4,7 @@ namespace App\Livewire\Client;
 
 use App\Models\Client;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 
@@ -44,7 +45,7 @@ class ClientComponent extends Component
             ->paginate($this->cant);
 
 
-        return view('livewire.client.client-component',[
+        return view('livewire.client.client-component', [
             'clientes' => $clientes
         ]);
     }
@@ -73,6 +74,7 @@ class ClientComponent extends Component
         $cliente = new Client();
         $cliente->name = $this->name;
         $cliente->identificacion = $this->identificacion;
+        $cliente->telefono = $this->telefono;
         $cliente->email = $this->email;
         $cliente->empresa = $this->empresa;
         $cliente->nit = $this->nit;
@@ -90,9 +92,57 @@ class ClientComponent extends Component
         //dump($cliente);
         $this->Id = $cliente->id;
         $this->name = $cliente->name;
+        $this->identificacion = $cliente->identificacion;
+        $this->telefono = $cliente->telefono;
+        $this->email = $cliente->email;
+        $this->empresa = $cliente->empresa;
+        $this->nit = $cliente->nit;
 
         $this->dispatch('open-modal', 'modalCliente');
     }
+
+
+    public function update(Client $cliente)
+    {
+        //dump($category);
+        $rules = [
+            'name' => 'required|min:5|max:255',
+            'identificacion' => 'required|max:15|unique:clients,id,' . $this->Id,
+            'email' => 'max:255|email|nullable',
+        ];
+
+
+        $this->validate($rules);
+
+        $cliente->name = $this->name;
+        $cliente->identificacion = $this->identificacion;
+        $cliente->telefono = $this->telefono;
+        $cliente->email = $this->email;
+        $cliente->empresa = $this->empresa;
+        $cliente->nit = $this->nit;
+
+        $cliente->update();
+
+        $this->dispatch('close-modal', 'modalCliente');
+        $this->dispatch('msg', 'Cliente actualizada correctamente');
+
+        $this->clean();
+    }
+
+
+
+    #[On('destroyCliente')]
+    public function destroy($id)
+    {
+        //dump($id);
+        $cliente = Client::findOrfail($id);
+        //dump($category);
+        $cliente->delete();
+
+        $this->dispatch('msg', 'El cliente ha sido eliminado correctamente');
+
+    }
+
 
 
     //método encargado de la limpieza

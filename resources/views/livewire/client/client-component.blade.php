@@ -26,7 +26,7 @@
                 <td>{{$cliente->email}}</td>
                 <td>{{$cliente->telefono}}</td>
                 <td>
-                    <a href="#" title="Ver" class="btn btn-success btn-xs mr-2"><i class="far fa-eye"></i></a>
+                    <a href="{{ route('clientes.show', $cliente) }}" title="Ver" class="btn btn-success btn-xs mr-2"><i class="far fa-eye"></i></a>
                     <a href="#" wire:click='edit({{ $cliente->id }})' title="Editar" class="btn btn-primary btn-xs mr-2"><i
                             class="far fa-edit"></i></a>
                     <a wire:click="$dispatch('delete',{id: {{ $cliente->id }}, eventName: 'destroyCliente'})" title="Eliminar" class="btn btn-danger btn-xs"><i
