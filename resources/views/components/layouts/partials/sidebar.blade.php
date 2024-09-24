@@ -42,6 +42,35 @@
                     </a>
                 </li>
 
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-shopping-cart"></i>
+                      <p>
+                        Ventas
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{{ route('ventas.create') }}" class="nav-link">
+                          <i class="fas fa-cart-plus nav-icon"></i>
+                          <p>Crear venta</p>
+                        </a>
+                      </li>
+
+                      <li class="nav-item">
+                        <a class="nav-link">
+                          <i class="fas fa-shopping-cart nav-icon"></i>
+                          <p>Mostrar ventas</p>
+                        </a>
+                      </li>
+
+                    </ul>
+                  </li>
+
+
+
                 <li class="nav-item">
                     <a href="{{ route('categorias') }}" class="nav-link">
                         <i class="nav-icon fas fa-th-large"></i>
