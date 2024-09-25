@@ -28,40 +28,44 @@
                 </thead>
                 <tbody>
 
-                    <tr>
-                        <td></td>
-                        <td>
-                            <img src="" width="50" class="img-fluid rounded">
+                    @forelse ( $cart as $producto)
+                        <tr>
+                            <td>{{ $producto->id }}</td>
+                            <td>
+                                <x-image :item="$producto->model" size="60"/>
 
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <!-- Botones para aumentar o disminuir la cantidad del producto en el carrito -->
-                            <button class="btn btn-primary btn-xs">
-                                -
-                            </button>
+                            </td>
+                            <td>{{ $producto->name }}</td>
+                            <td>{{ $producto->model->precio}}</td>
+                            <td>
+                                <!-- Botones para aumentar o disminuir la cantidad del producto en el carrito -->
+                                <button class="btn btn-primary btn-xs">
+                                    -
+                                </button>
 
-                            <span class="mx-1">0</span>
+                                <span class="mx-1">0</span>
 
-                            <button class="btn btn-primary btn-xs">
-                                +
-                            </button>
+                                <button class="btn btn-primary btn-xs">
+                                    +
+                                </button>
 
-                        </td>
-                        <td>0</td>
-                        <td>
-                            <!-- Boton para eliminar el producto del carrito -->
-                            <button class="btn btn-danger btn-xs" title="Eliminar">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
+                            </td>
+                            <td>{{ $producto->qty * $producto->price }}</td>
+                            <td>
+                                <!-- Boton para eliminar el producto del carrito -->
+                                <button class="btn btn-danger btn-xs" title="Eliminar">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
 
-                    </tr>
+                        </tr>
 
-                    <tr>
-                        <td colspan="10">Sin Registros</td>
-                    </tr>
+                    @empty
+                        <tr>
+                            <td colspan="10">Sin Registros</td>
+                        </tr>
+                    @endforelse
+
 
                     <tr>
                         <td colspan="4"></td>

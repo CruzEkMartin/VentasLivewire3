@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Sale;
 
+
 use App\Models\Product;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Computed;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 #[Title('Ventas')]
 class SaleCreate extends Component
@@ -28,8 +30,33 @@ class SaleCreate extends Component
         $this->totalRegistros = Product::count();
 
         return view('livewire.sale.sale-create', [
-            'productos' => $this->productos
+            'productos' => $this->productos,
+            'cart' => $this->getCart()
         ]);
+    }
+
+
+    //agregar producto al carrito
+    public function addProducto(Product $producto)
+    {
+        // dump($producto);
+
+        //creamos la instancia para el carrito de cada usuario
+        //$userID = auth()->user()->id;
+
+        $cartItem = Cart::instance(userID())->add($producto->id, $producto->name, 1, $producto->precio_venta);
+
+        $cartItem->associate('Product');
+
+        //dump(Cart::instance(userID())->content());
+
+    }
+
+    //obtener el contenido del carrito
+    public function getCart()
+    {
+        $cart = Cart::instance(userID())->content();
+        return $cart->sort();
     }
 
 
@@ -41,6 +68,4 @@ class SaleCreate extends Component
             ->orderBy('id', 'desc')
             ->paginate($this->cant);
     }
-
-
 }
