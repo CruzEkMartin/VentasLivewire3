@@ -2,11 +2,11 @@
     <x-card cardTitle="Crear Venta">
         <x-slot:cardTools>
 
-            <a href="#" class="btn btn-primary mr-2" wire:click='create'>
+            <a href="#" class="btn btn-primary btn-sm mr-2" >
                 <i class="fas fa-plus-circle mr-1"></i> Ir a ventas
             </a>
 
-            <a href="#" class="btn btn-danger" wire:click='create'>
+            <a href="#" class="btn btn-sm btn-danger" wire:click='clear'>
                 <i class="fas fa-trash mr-1"></i> Cancelar
             </a>
 

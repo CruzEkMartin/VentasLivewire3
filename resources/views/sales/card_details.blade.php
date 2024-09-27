@@ -4,10 +4,10 @@
         <div class="card-tools">
             <!-- Conteo de productos -->
             <i class="fas fa-tshirt " title="Numero productos"></i>
-            <span class="badge badge-pill bg-purple ">0 </span>
+            <span class="badge badge-pill bg-purple ">{{ $cart->count(true) }} </span>
             <!-- Conteo de articulos -->
             <i class="fas fa-shopping-basket ml-2 ml-2" title="Numero items"></i>
-            <span class="badge badge-pill bg-purple">0 </span>
+            <span class="badge badge-pill bg-purple">{{ $articulos }} </span>
         </div>
     </div>
     <!-- card-body -->
@@ -28,32 +28,33 @@
                 </thead>
                 <tbody>
 
-                    @forelse ( $cart as $producto)
+
+                    @forelse ($cart as $producto)
                         <tr>
                             <td>{{ $producto->id }}</td>
                             <td>
-                                <x-image :item="$producto->model" size="60"/>
+                                <x-image :item="$producto->model" size="60" />
 
                             </td>
                             <td>{{ $producto->name }}</td>
-                            <td>{{ $producto->model->precio}}</td>
+                            <td>{!! $producto->model->precio !!}</td>
                             <td>
                                 <!-- Botones para aumentar o disminuir la cantidad del producto en el carrito -->
-                                <button class="btn btn-primary btn-xs">
+                                <button wire:click="decrementar('{{ $producto->rowId }}')" class="btn btn-primary btn-xs">
                                     -
                                 </button>
 
-                                <span class="mx-1">0</span>
+                                <span class="mx-1">{{ $producto->qty }}</span>
 
-                                <button class="btn btn-primary btn-xs">
+                                <button wire:click="incrementar('{{ $producto->rowId }}')" class="btn btn-primary btn-xs">
                                     +
                                 </button>
 
                             </td>
-                            <td>{{ $producto->qty * $producto->price }}</td>
+                            <td>{{ money($producto->qty * $producto->price) }}</td>
                             <td>
                                 <!-- Boton para eliminar el producto del carrito -->
-                                <button class="btn btn-danger btn-xs" title="Eliminar">
+                                <button wire:click="removeItem('{{ $producto->rowId }}')" class="btn btn-danger btn-xs" title="Eliminar">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -75,16 +76,15 @@
                         <td>
                             <h5>
                                 <span class="badge badge-pill badge-secondary">
-                                    0</span>
+                                    {{ money($total) }}</span>
                             </h5>
                         </td>
-                        <td></td>
+                        <td></td>|
                     </tr>
                     <tr>
 
                         <td colspan="7">
-                            <strong>Total en letras:</strong>
-                            0
+                            <strong>Total en letras:</strong> {{ numerosLetras($total) }}
                         </td>
                     </tr>
                 </tbody>

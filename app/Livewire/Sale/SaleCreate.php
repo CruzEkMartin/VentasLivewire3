@@ -5,6 +5,7 @@ namespace App\Livewire\Sale;
 
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
@@ -21,6 +22,13 @@ class SaleCreate extends Component
     public $totalRegistros = 0;
     public $cant = 5;
 
+    // public function mount()
+    // {
+    //     Cart::instance(userID())->destroy();
+    //     //$this->updateCart();
+    // }
+
+
     public function render()
     {
         if ($this->search != '') {
@@ -29,14 +37,19 @@ class SaleCreate extends Component
 
         $this->totalRegistros = Product::count();
 
+
+
         return view('livewire.sale.sale-create', [
             'productos' => $this->productos,
-            'cart' => $this->getCart()
+            'cart' => $this->getCart(),
+            'total' => $this->getTotal(),
+            'articulos' => $this->totalArticulos()
         ]);
     }
 
 
     //agregar producto al carrito
+    #[On('add-product')]
     public function addProducto(Product $producto)
     {
         // dump($producto);
@@ -44,19 +57,64 @@ class SaleCreate extends Component
         //creamos la instancia para el carrito de cada usuario
         //$userID = auth()->user()->id;
 
-        $cartItem = Cart::instance(userID())->add($producto->id, $producto->name, 1, $producto->precio_venta);
-
-        $cartItem->associate('Product');
-
-        //dump(Cart::instance(userID())->content());
-
+        Cart::instance(userID())->add($producto->id, $producto->name, 1, $producto->precio_venta)->associate($producto);
     }
 
     //obtener el contenido del carrito
     public function getCart()
     {
+        //dd(Cart::instance(userID())->content());
         $cart = Cart::instance(userID())->content();
         return $cart->sort();
+    }
+
+    //devolver total
+    public function getTotal()
+    {
+        //dd(Cart::instance(userID())->tax());
+        Cart::instance(userID())->setGlobalTax(0);
+        return Cart::instance(userID())->total(2, '.', '');
+    }
+
+    //decrementar cantidad
+    public function decrementar($rowId)
+    {
+        //dd($rowId);
+
+        $item =  Cart::instance(userID())->get($rowId);
+
+        if ($item->qty > 1) {
+            Cart::instance(userID())->update($rowId, $item->qty - 1);
+        }
+    }
+
+    //decrementar cantidad
+    public function incrementar($rowId)
+    {
+        //dd($rowId);
+        $item =  Cart::instance(userID())->get($rowId);
+
+        Cart::instance(userID())->update($rowId, $item->qty + 1);
+    }
+
+
+    //eliminar producto
+    public function removeItem($rowId)
+    {
+        Cart::instance(userID())->remove($rowId);
+    }
+
+//limpiar el carrito
+    public function clear()
+    {
+        Cart::instance(userID())->destroy();
+        $this->dispatch('msg', 'Venta cancelada');
+    }
+
+    //total de articulos
+    public function totalArticulos()
+    {
+        return Cart::instance(userID())->count(false);
     }
 
 

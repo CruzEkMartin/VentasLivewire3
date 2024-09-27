@@ -12,6 +12,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'descripcion', 'precio_compra','precio_venta', 'stock','stock_minimo','codigo_barras','fecha_vencimiento','active','category_id'];
+
     //relación polifórmica image
     public function image()
     {
