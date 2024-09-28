@@ -5,9 +5,13 @@
     </td>
     <td>{{ $producto->name }}</td>
     <td>{!! $producto->precio !!}</td>
-    <td>{!! $producto->stockLabel !!}</td>
+    <td>{!! $stockLabel !!}</td>
     <td>
-        <button wire:click = "addProducto({{ $producto->id }})" class="btn btn-primary btn-sm" title="Agregar">
+        <button wire:click = "addProducto({{ $producto->id }})"
+            class="btn btn-primary btn-sm"
+            wire:loading.attr='disabled'
+            wire:target='addProducto'
+            title="Agregar">
             <i class="fas fa-plus-circle"></i>
         </button>
     </td>

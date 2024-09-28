@@ -85,6 +85,9 @@ class SaleCreate extends Component
 
         if ($item->qty > 1) {
             Cart::instance(userID())->update($rowId, $item->qty - 1);
+
+            //emitimos un evento para disminuir el stock del listado, se escucha en Sales.ProductoRow
+            $this->dispatch("incrementStock.{$item->id}");
         }
     }
 
@@ -93,8 +96,12 @@ class SaleCreate extends Component
     {
         //dd($rowId);
         $item =  Cart::instance(userID())->get($rowId);
+        //dd($item);
 
         Cart::instance(userID())->update($rowId, $item->qty + 1);
+
+        //emitimos un evento para disminuir el stock del listado, se escucha en Sales.ProductoRow
+        $this->dispatch("decrementStock.{$item->id}");
     }
 
 
@@ -104,7 +111,7 @@ class SaleCreate extends Component
         Cart::instance(userID())->remove($rowId);
     }
 
-//limpiar el carrito
+    //limpiar el carrito
     public function clear()
     {
         Cart::instance(userID())->destroy();

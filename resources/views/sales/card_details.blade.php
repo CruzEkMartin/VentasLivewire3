@@ -40,13 +40,21 @@
                             <td>{!! $producto->model->precio !!}</td>
                             <td>
                                 <!-- Botones para aumentar o disminuir la cantidad del producto en el carrito -->
-                                <button wire:click="decrementar('{{ $producto->rowId }}')" class="btn btn-primary btn-xs">
+                                <button wire:click="decrementar('{{ $producto->rowId }}')"
+                                    wire:loading.attr = 'disabled'
+                                    wire:target = 'decrementar'
+                                    class="btn btn-primary btn-xs">
                                     -
                                 </button>
 
                                 <span class="mx-1">{{ $producto->qty }}</span>
 
-                                <button wire:click="incrementar('{{ $producto->rowId }}')" class="btn btn-primary btn-xs">
+                                <button wire:click="incrementar('{{ $producto->rowId }}')"
+                                    class="btn btn-primary btn-xs"
+                                    wire:loading.attr = 'disabled'
+                                    wire:target = 'incrementar'
+                                    {{ $producto->qty >= $producto->model->stock ? 'disabled' : ''}}
+                                    >
                                     +
                                 </button>
 
