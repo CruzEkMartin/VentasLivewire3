@@ -2,7 +2,7 @@
     <x-card cardTitle="Crear Venta">
         <x-slot:cardTools>
 
-            <a href="#" class="btn btn-primary btn-sm mr-2" >
+            <a href="#" class="btn btn-primary btn-sm mr-2">
                 <i class="fas fa-plus-circle mr-1"></i> Ir a ventas
             </a>
 
@@ -18,7 +18,14 @@
             {{-- Columna detalles venta --}}
             <div class="col-md-6">
                 @include('sales.card_details')
+
+                {{-- Columna para el pago --}}
+                @include('sales.card_pago')
+
             </div>
+
+
+
 
             {{-- Columna Productos --}}
             <div class="col-md-6">

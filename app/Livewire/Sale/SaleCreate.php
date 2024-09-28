@@ -21,6 +21,9 @@ class SaleCreate extends Component
     public $search = '';
     public $totalRegistros = 0;
     public $cant = 5;
+    public $pago = 0;
+    public $devuelve = 0;
+    public $updating = 0; //para indicar el tipo de actualización en el pago
 
     // public function mount()
     // {
@@ -37,6 +40,10 @@ class SaleCreate extends Component
 
         $this->totalRegistros = Product::count();
 
+        if($this->updating == 0){
+            $this->pago = $this->getTotal();
+            $this->devuelve = $this->pago -  $this->getTotal();
+        }
 
 
         return view('livewire.sale.sale-create', [
@@ -47,11 +54,18 @@ class SaleCreate extends Component
         ]);
     }
 
+    public function updatingPago($value){
+        $this->updating=1; //indicamos que se está actualizando manualmente la cantidad a pagar
+        $this->pago = $value; //$this->getTotal();
+        $this->devuelve = (int)$this->pago -  $this->getTotal();
+    }
 
     //agregar producto al carrito
     #[On('add-product')]
     public function addProducto(Product $producto)
     {
+        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+
         // dump($producto);
 
         //creamos la instancia para el carrito de cada usuario
@@ -81,6 +95,8 @@ class SaleCreate extends Component
     {
         //dd($rowId);
 
+        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+
         $item =  Cart::instance(userID())->get($rowId);
 
         if ($item->qty > 1) {
@@ -94,6 +110,7 @@ class SaleCreate extends Component
     //decrementar cantidad
     public function incrementar($rowId)
     {
+        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
         //dd($rowId);
         $item =  Cart::instance(userID())->get($rowId);
         //dd($item);
@@ -106,16 +123,26 @@ class SaleCreate extends Component
 
 
     //eliminar producto
-    public function removeItem($rowId)
+    public function removeItem($rowId, $qty)
     {
+        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+
+        $item =  Cart::instance(userID())->get($rowId);
+
         Cart::instance(userID())->remove($rowId);
+
+        $this->dispatch("devolverStock.{$item->id}", $qty);
     }
 
     //limpiar el carrito
     public function clear()
     {
+        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+        $this->pago=0;
+        $this->devuelve=0;
         Cart::instance(userID())->destroy();
         $this->dispatch('msg', 'Venta cancelada');
+        $this->dispatch('refreshProducts');
     }
 
     //total de articulos

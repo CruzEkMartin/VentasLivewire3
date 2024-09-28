@@ -62,7 +62,7 @@
                             <td>{{ money($producto->qty * $producto->price) }}</td>
                             <td>
                                 <!-- Boton para eliminar el producto del carrito -->
-                                <button wire:click="removeItem('{{ $producto->rowId }}')" class="btn btn-danger btn-xs" title="Eliminar">
+                                <button wire:click="removeItem('{{ $producto->rowId }}', {{ $producto->qty }})" class="btn btn-danger btn-xs" title="Eliminar">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
