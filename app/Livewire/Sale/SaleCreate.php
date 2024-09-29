@@ -9,6 +9,7 @@ use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Reactive;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 #[Title('Ventas')]
@@ -21,6 +22,8 @@ class SaleCreate extends Component
     public $search = '';
     public $totalRegistros = 0;
     public $cant = 5;
+
+
     public $pago = 0;
     public $devuelve = 0;
     public $updating = 0; //para indicar el tipo de actualización en el pago
@@ -40,7 +43,7 @@ class SaleCreate extends Component
 
         $this->totalRegistros = Product::count();
 
-        if($this->updating == 0){
+        if ($this->updating == 0) {
             $this->pago = $this->getTotal();
             $this->devuelve = $this->pago -  $this->getTotal();
         }
@@ -54,8 +57,9 @@ class SaleCreate extends Component
         ]);
     }
 
-    public function updatingPago($value){
-        $this->updating=1; //indicamos que se está actualizando manualmente la cantidad a pagar
+    public function updatingPago($value)
+    {
+        $this->updating = 1; //indicamos que se está actualizando manualmente la cantidad a pagar
         $this->pago = $value; //$this->getTotal();
         $this->devuelve = (int)$this->pago -  $this->getTotal();
     }
@@ -64,7 +68,7 @@ class SaleCreate extends Component
     #[On('add-product')]
     public function addProducto(Product $producto)
     {
-        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+        $this->updating = 0; //si se agrega un producto se cambia la cantidad a pagar a automatico
 
         // dump($producto);
 
@@ -95,7 +99,7 @@ class SaleCreate extends Component
     {
         //dd($rowId);
 
-        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+        $this->updating = 0; //si se agrega un producto se cambia la cantidad a pagar a automatico
 
         $item =  Cart::instance(userID())->get($rowId);
 
@@ -110,7 +114,7 @@ class SaleCreate extends Component
     //decrementar cantidad
     public function incrementar($rowId)
     {
-        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+        $this->updating = 0; //si se agrega un producto se cambia la cantidad a pagar a automatico
         //dd($rowId);
         $item =  Cart::instance(userID())->get($rowId);
         //dd($item);
@@ -125,7 +129,7 @@ class SaleCreate extends Component
     //eliminar producto
     public function removeItem($rowId, $qty)
     {
-        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+        $this->updating = 0; //si se agrega un producto se cambia la cantidad a pagar a automatico
 
         $item =  Cart::instance(userID())->get($rowId);
 
@@ -137,12 +141,22 @@ class SaleCreate extends Component
     //limpiar el carrito
     public function clear()
     {
-        $this->updating=0; //si se agrega un producto se cambia la cantidad a pagar a automatico
-        $this->pago=0;
-        $this->devuelve=0;
+        $this->updating = 0; //si se agrega un producto se cambia la cantidad a pagar a automatico
+        $this->pago = 0;
+        $this->devuelve = 0;
         Cart::instance(userID())->destroy();
         $this->dispatch('msg', 'Venta cancelada');
         $this->dispatch('refreshProducts');
+    }
+
+
+    //recibimos el evento desde el componente hijo (Currency.php)
+    #[On('setPago')]
+    public function setPago($valor)
+    {
+        $this->updating = 1;
+        $this->pago = $valor;
+        $this->devuelve = $this->pago - $this->getTotal();
     }
 
     //total de articulos
