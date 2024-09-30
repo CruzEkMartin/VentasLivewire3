@@ -4,6 +4,7 @@ namespace App\Livewire\Sale;
 
 use App\Models\Client;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class Cliente extends Component
 {
@@ -23,13 +24,23 @@ class Cliente extends Component
     public function render()
     {
         return view('livewire.sale.cliente', [
-            'clients' => Client::all()
+            'clients' => Client::all(),
+            'nameClient' => $this->nameClient($this->client)
+
         ]);
+    }
+
+    //escucha el evento emitido por el select2
+    #[On('client_id')]
+    public function client_id($id=1){
+        $this->client = $id;
+        $this->nameClient($id);
     }
 
     public function mount(){
         $this->nameClient($this->client);
     }
+
 
     public function nameClient($id)
     {
@@ -68,6 +79,8 @@ class Cliente extends Component
 
         $this->dispatch('close-modal', 'modalCliente');
         $this->dispatch('msg', 'Cliente creado correctamente');
+
+        $this->dispatch('client_id', $cliente->id);
 
         $this->clean();
     }

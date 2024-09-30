@@ -3,6 +3,7 @@
 namespace App\Livewire\Sale;
 
 
+use App\Models\Sale;
 use App\Models\Product;
 use Livewire\Component;
 use Livewire\Attributes\On;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Reactive;
+use Illuminate\Support\Facades\DB;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 #[Title('Ventas')]
@@ -27,6 +29,8 @@ class SaleCreate extends Component
     public $pago = 0;
     public $devuelve = 0;
     public $updating = 0; //para indicar el tipo de actualización en el pago
+
+    public $client = 1;
 
     // public function mount()
     // {
@@ -56,6 +60,48 @@ class SaleCreate extends Component
             'articulos' => $this->totalArticulos()
         ]);
     }
+
+    //crear venta
+    public function createSale()
+    {
+        $cart = $this->getCart();
+
+        if (count($cart) == 0) {
+            $this->dispatch('msg', 'No hay productos', 'danger');
+            return;
+            //dump("crear venta");
+        }
+
+        if ($this->pago < $this->getTotal()) {
+            $this->pago = $this->getTotal();
+            $this->devuelve = 0;
+        }
+
+        DB::transaction(function () {
+            $sale = new Sale();
+            $sale->total = $this->getTotal();
+            $sale->pago = $this->total;
+            $sale->user = userID();
+            $sale->client_id = $this->client;
+            $sale->fecha = date('Y-m-d');
+            $sale->save();
+
+            global $cart;
+
+            foreach($cart as $product){
+
+            }
+
+        });
+    }
+
+    //listener para cuando se seleccione el cliente
+    #[On('client_id')]
+    public function client_id($id = 1)
+    {
+        $this->client = $id;
+    }
+
 
     public function updatingPago($value)
     {

@@ -24,7 +24,7 @@ class Currency extends Component
 
     public function setPago($valor)
     {
-        //enviamos un evento al componente padre
+        //enviamos un evento al componente padre SaleCreate.php
         $this->dispatch('setPago', $valor);
         $this->dispatch('close-modal', 'modalCurrency');
     }

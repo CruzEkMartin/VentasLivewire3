@@ -47,31 +47,41 @@ class User extends Authenticatable
     ];
 
     //atributos
-    protected function activeLabel() : Attribute
+    protected function activeLabel(): Attribute
     {
         return Attribute::make(
             get: function () {
                 return $this->attributes['active'] ?
-                '<span class="badge badge-success">Activo</span>' :
-                '<span class="badge badge-warning">Inactivo</span>';
+                    '<span class="badge badge-success">Activo</span>' :
+                    '<span class="badge badge-warning">Inactivo</span>';
             }
         );
     }
 
-    public function image(){
-        return $this->morphOne('App\Models\Image','imageable');
+    public function image()
+    {
+        return $this->morphOne('App\Models\Image', 'imageable');
     }
 
 
 
 
-    protected function imagen() : Attribute
+    protected function imagen(): Attribute
     {
         return Attribute::make(
             get: function () {
-                return $this->image ? Storage::url('public/'.$this->image->url) : asset('img/no-image.png') ;
+                return $this->image ? Storage::url('public/' . $this->image->url) : asset('img/no-image.png');
             }
         );
+    }
+
+    //relaciones
+
+
+    //relacion con la tabla de Sales
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
     }
 
 

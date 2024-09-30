@@ -26,7 +26,7 @@
                     <input type="number" wire:model.live="pago" class="form-control" id="pago" min="{{ $total }}">
 
                 </div>
-                <p>{{ numerosLetras($total) }}</p>
+                <p>{{ numerosLetras($pago) }}</p>
             </div>
             <div class="col-6">
                 <label for="pago">Devuelve:</label>
