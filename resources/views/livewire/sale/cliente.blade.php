@@ -1,6 +1,6 @@
 <div>
     <div class="card card-info">
-        <div class="card-header">
+        <div class="card-header terciario">
             <h3 class="card-title"><i class="fas fa-user"></i> Cliente: <span class="badge badge-secondary">{{ $nameClient }}</span></h3>
             <div class="card-tools">
                 <button wire:click="openModal" class="btn bg-purple btn-sm">Crear cliente</button>

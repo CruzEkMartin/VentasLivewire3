@@ -2,8 +2,8 @@
     <x-card cardTitle="Crear Venta">
         <x-slot:cardTools>
 
-            <a href="#" class="btn btn-primary btn-sm mr-2">
-                <i class="fas fa-plus-circle mr-1"></i> Ir a ventas
+            <a href="{{ route('ventas.list') }}" class="btn btn-primary btn-sm mr-2">
+                <i class="fas fa-shopping-cart mr-1"></i> Ir a ventas
             </a>
 
             <a href="#" class="btn btn-sm btn-danger" wire:click='clear'>

@@ -1,5 +1,5 @@
 <div class="card card-info">
-    <div class="card-header">
+    <div class="card-header terciario">
         <h3 class="card-title"><i class="fas fa-cart-plus mr-1"></i> Detalles venta {{ $client }} </h3>
         <div class="card-tools">
             <!-- Conteo de productos -->

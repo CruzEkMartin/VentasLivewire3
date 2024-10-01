@@ -1,5 +1,5 @@
 <div class="card card-info">
-    <div class="card-header">
+    <div class="card-header terciario">
         <h3 class="card-title"><i class="fas fa-tshirt mr-1"></i> Productos</h3>
     </div>
 

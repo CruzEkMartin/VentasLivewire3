@@ -21,7 +21,7 @@ class Sale extends Model
 
     //se crea la relación con la tabla de items, se debe especificar en Items esta relación
     public function items(){
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Item::class)->withPivot(['qty', 'fecha']);
     }
 
 

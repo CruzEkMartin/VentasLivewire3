@@ -36,12 +36,12 @@
 
     .secundario {
         background-color: #440412 !important;
-        color: ;
+        color:  color:  #eaeaea !important;
     }
 
     .terciario {
         background-color: #B68400 !important;
-        color: ;
+        color:  #000000 !important;
     }
 </style>
 

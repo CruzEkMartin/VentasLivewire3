@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Sale;
 
-
+use App\Models\Item;
 use App\Models\Sale;
 use App\Models\Product;
 use Livewire\Component;
@@ -77,21 +77,45 @@ class SaleCreate extends Component
             $this->devuelve = 0;
         }
 
+
+
         DB::transaction(function () {
+
+            //guardamos la venta
             $sale = new Sale();
             $sale->total = $this->getTotal();
-            $sale->pago = $this->total;
-            $sale->user = userID();
+            $sale->pago = $this->pago;
+            $sale->user_id = userID();
             $sale->client_id = $this->client;
             $sale->fecha = date('Y-m-d');
             $sale->save();
 
-            global $cart;
 
-            foreach($cart as $product){
+            //usamos para acceder a la variable cart que está fuera de la función y guardamos los items
+            $cart = Cart::instance(userID())->content();
+            //dd($cart);
 
+            foreach ($cart as $product) {
+                $item = new Item();
+                $item->name = $product->name;
+                $item->price = $product->price;
+                $item->qty = $product->qty;
+                $item->image = $product->model->imagen;
+                $item->product_id = $product->id;
+                $item->fecha = date('Y-m-d');
+                $item->save();
+
+                //guardamos en la tabla intermedia los items. tabla items_sale
+                $sale->items()->attach($item->id, ['qty' => $product->qty, 'fecha' => date('Y-m-d')]);
+
+                //buscamos el producto y le restamos la cantidad vendida
+                Product::find($product->id)->decrement('stock', $product->qty);
             }
 
+            //limpiamos el carrito
+            Cart::instance(userID())->destroy();
+            $this->reset(['pago', 'devuelve', 'client']);
+            $this->dispatch('msg', 'Venta creada correctamente');
         });
     }
 

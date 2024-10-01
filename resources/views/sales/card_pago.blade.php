@@ -1,5 +1,5 @@
 <div class="card card-info">
-    <div class="card-header">
+    <div class="card-header terciario">
         <h3 class="card-title"><i class="fas fa-wallet"></i> Pago </h3>
 
         <div class="card-tools d-flex justify-content-center align-self-center">
