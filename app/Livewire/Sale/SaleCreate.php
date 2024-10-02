@@ -115,7 +115,7 @@ class SaleCreate extends Component
             //limpiamos el carrito
             Cart::instance(userID())->destroy();
             $this->reset(['pago', 'devuelve', 'client']);
-            $this->dispatch('msg', 'Venta creada correctamente');
+            $this->dispatch('msg', 'Venta creada correctamente', 'success' ,$sale->id);
         });
     }
 

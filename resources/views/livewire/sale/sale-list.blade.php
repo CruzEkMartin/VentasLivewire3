@@ -61,7 +61,7 @@
                     </td>
                     <td>{{ $sale->fecha }}</td>
                     <td>
-                        <a href="" class="btn bg-indigo btn-xs mr-2" title="Generar PDF"><i
+                        <a href="{{ route('ventas.invoice', $sale) }}" target="_blank" class="btn bg-indigo btn-xs mr-2" title="Generar PDF"><i
                                 class="far fa-file-pdf"></i></a>
                         <a href="{{ route('ventas.show', $sale) }}" class="btn btn-success btn-xs mr-2"
                             title="Ver"><i class="far fa-eye"></i></a>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PdfController;
 use App\Livewire\Home\Inicio;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -55,3 +56,6 @@ Route::get('/ventas/show/{sale}', SaleShow::class)->name('ventas.show')->middlew
 
 
 Route::get('/tienda', ShopComponent::class)->name('tienda')->middleware(['auth']);
+
+
+Route::get('/ventas/invoice/{sale}', [PdfController::class, 'invoice'])->name('ventas.invoice')->middleware(['auth']);
