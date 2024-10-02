@@ -107,6 +107,16 @@
                     </a>
                 </li>
 
+
+                <li class="nav-item">
+                    <a href="{{ route('tienda') }}" class="nav-link">
+                        <i class="nav-icon fas fa-store-alt"></i>
+                        <p>
+                            Tienda
+                        </p>
+                    </a>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
