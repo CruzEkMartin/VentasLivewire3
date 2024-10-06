@@ -5,9 +5,15 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Home</a>
+            <a href="/" class="nav-link">
+                <i class="fas fa-store mr-2"></i>
+                Inicio</a>
         </li>
-
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="{{ route('ventas.create') }}" class="nav-link">
+                <i class="fas fa-cart-plus mr-2"></i>
+                Crear venta</a>
+        </li>
     </ul>
 
     <!-- Right navbar links -->
