@@ -15,6 +15,16 @@
         {{-- row cards ventas hoy --}}
 
         @include('home.row_card_sales')
-    </x-card>0
+
+        {{-- Card Gráfica --}}
+
+        @include('home.card_graph')
+
+
+        {{-- Boxes --}}
+
+        @include('home.boxes_reports')
+
+    </x-card>
 
 </div>
