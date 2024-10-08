@@ -22,19 +22,59 @@ class SaleEdit extends Component
     public $totalRegistros = 0;
     public $cant = 5;
 
-    public $cart;
+    public $cart = 0;
+    public $buscarId = null;
 
     public function render()
     {
-        return view('livewire.sale.sale-edit',[
+        $this->getItemsToCart();
+
+        return view('livewire.sale.sale-edit', [
             'productos' => $this->productos,
             'total' => $this->getTotal(),
             'articulos' => $this->totalArticulos()
         ]);
     }
 
-    public function mount(){
-        $this->cart = collect();
+    public function getItemsToCart()
+    {
+        foreach ($this->sale->items as $item) {
+
+            //dd($item); id:13 y product_id:250
+            //buscamos el producto en la db
+            $producto = Product::find($item->product_id);
+
+            dd(Cart::instance(userID())->content());
+
+            //verificamos que no exista el item en el carrito
+            $this->buscarId = $item->id;
+
+            $existeItem = Cart::instance(userID())->search(function ($cartItem, $buscarId) {
+                return $cartItem->id === $this->buscarId;
+            });
+
+            if ($existeItem) {
+                return;
+            } else {
+                //si no existe lo agregamos
+                Cart::instance(userID())->add($producto->id, $item->name, $item->qty, $item->price)->associate($producto);
+            }
+        }
+
+        $this->cart = $this->getCart();
+    }
+
+    public function mount()
+    {
+        //$this->cart = collect();
+    }
+
+    //obtener el contenido del carrito
+    public function getCart()
+    {
+        //dd(Cart::instance(userID())->content());
+        $cart = Cart::instance(userID())->content();
+        return $cart->sort();
     }
 
 
@@ -59,6 +99,4 @@ class SaleEdit extends Component
         Cart::instance(userID())->setGlobalTax(0);
         return Cart::instance(userID())->total(2, '.', '');
     }
-
-
 }

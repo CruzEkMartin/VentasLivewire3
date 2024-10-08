@@ -8,7 +8,7 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
-
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 #[Title('Ventas')]
 class SaleList extends Component
@@ -29,6 +29,8 @@ class SaleList extends Component
 
     public function render()
     {
+
+        Cart::instance(userID())->destroy();
 
         if ($this->search != '') {
             $this->resetPage();
