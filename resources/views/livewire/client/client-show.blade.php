@@ -49,25 +49,36 @@
                 <thead style="background-color: #b0aba1;">
                     <tr>
                         <th>Id</th>
-                        <th>Imagen</th>
-                        <th>Producto</th>
-                        <th>Precio Venta</th>
-                        <th>Stock</th>
+                        <th>Total</th>
+                        <th>Productos</th>
+                        <th>Artículos</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($category->products as $producto)
-                    <tr>
-                        <td>{{ $producto->id }}</td>
-                        <td><x-image :item="$producto"/></td>
-                        <td>{{ $producto->name }}</td>
-                        <td>{!!  $producto->precio !!}</td>
-                        <td>{!! $producto->stockLabel !!}</td>
-                    </tr>
-                    @endforeach --}}
+                    @foreach ($sales as $sale)
+                        <tr>
+                            <td><b>FV-{{ $sale->id }}</b></td>
+                            <td>{!! money($sale->total) !!}</td>
+                            <td>
+                                <span class="badge badge-pill badge-primary">
+                                    {{ $sale->items->count() }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge badge-pill badge-primary">
+                                    {{ $sale->items->sum('pivot.qty') }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{{ route('ventas.show', $sale) }}" class="btn btn-primary btn-sm">Ver Venta</a>
+                            </td>
+                        </tr>
+                    @endforeach
 
                 </tbody>
             </table>
+            {{ $sales->links() }}
         </div>
     </div>
 </x-card>

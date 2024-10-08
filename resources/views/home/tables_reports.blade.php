@@ -29,26 +29,25 @@
                         </thead>
                         <tbody>
                             @forelse ($productosMasVendidosHoy as $producto)
-
-                            <tr>
-                                <td>{{ $producto->product_id }}</td>
-                                <td>
-                                 <img src="{{ asset($producto->image) }}" width="50px" class="img-fluid rounded">
-                                </td>
-                                <td>{{ $producto->name }}</td>
-                                <td>{!! money( $producto->price) !!}</td>
-                                <td>
-                                    <span class="badge bg-success">
-                                        {{ $producto->total_quantity}}
-                                    </span>
-                                </td>
-                                <td>{!! money($producto->price * $producto->total_quantity) !!}</td>
-                            </tr>
-
+                                <tr>
+                                    <td>{{ $producto->product_id }}</td>
+                                    <td>
+                                        <img src="{{ asset($producto->image) }}" width="50px"
+                                            class="img-fluid rounded">
+                                    </td>
+                                    <td>{{ $producto->name }}</td>
+                                    <td>{!! money($producto->price) !!}</td>
+                                    <td>
+                                        <span class="badge bg-success">
+                                            {{ $producto->total_quantity }}
+                                        </span>
+                                    </td>
+                                    <td>{!! money($producto->price * $producto->total_quantity) !!}</td>
+                                </tr>
                             @empty
-
-
-
+                                <tr>
+                                    <td colspan="10">Si Registros</td>
+                                </tr>
                             @endforelse
 
                         </tbody>
@@ -88,18 +87,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <img src="" width="40" alt="">
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <span class="badge bg-success"></span>
-                                </td>
-                                <td></td>
-                            </tr>
+                            @forelse ($productosMasVendidosMes as $producto)
+                                <tr>
+                                    <td>{{ $producto->product_id }}</td>
+                                    <td>
+                                        <img src="{{ asset($producto->image) }}" width="50px"
+                                            class="img-fluid rounded">
+                                    </td>
+                                    <td>{{ $producto->name }}</td>
+                                    <td>{!! money($producto->price) !!}</td>
+                                    <td>
+                                        <span class="badge bg-success">
+                                            {{ $producto->total_quantity }}
+                                        </span>
+                                    </td>
+                                    <td>{!! money($producto->price * $producto->total_quantity) !!}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="10">Si Registros</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -137,18 +145,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <img src="" width="40" alt="">
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <span class="badge bg-success"></span>
-                                </td>
-                                <td></td>
-                            </tr>
+                            @forelse ($productosMasVendidos as $producto)
+                                <tr>
+                                    <td>{{ $producto->product_id }}</td>
+                                    <td>
+                                        <img src="{{ asset($producto->image) }}" width="50px"
+                                            class="img-fluid rounded">
+                                    </td>
+                                    <td>{{ $producto->name }}</td>
+                                    <td>{!! money($producto->price) !!}</td>
+                                    <td>
+                                        <span class="badge bg-success">
+                                            {{ $producto->total_quantity }}
+                                        </span>
+                                    </td>
+                                    <td>{!! money($producto->price * $producto->total_quantity) !!}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="10">Si Registros</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -186,18 +203,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <img src="" width="40" alt="">
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <span class="badge bg-primary"></span>
-                                </td>
+                            @forelse ($productosRecientes as $producto)
+                                <tr>
+                                    <td>{{ $producto->id }}</td>
+                                    <td>
+                                        <x-image :item="$producto" size="50"></x-image>
+                                    </td>
+                                    <td>{{ $producto->name }}</td>
+                                    <td>{!! money($producto->precio_venta) !!}</td>
+                                    <td>
+                                            {!! $producto->stockLabel !!}
+                                    </td>
 
-                            </tr>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="10">Si Registros</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

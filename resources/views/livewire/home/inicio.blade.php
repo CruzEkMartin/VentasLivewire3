@@ -28,6 +28,9 @@
         {{-- tablas reportes productos--}}
         @include('home.tables_reports')
 
+        {{-- Mejores vendedores y compradores --}}
+        @include('home.best_sellers_buyers')
+
     </x-card>
 
 </div>

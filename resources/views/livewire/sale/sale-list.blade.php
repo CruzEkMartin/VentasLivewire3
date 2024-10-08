@@ -65,7 +65,7 @@
                                 class="far fa-file-pdf"></i></a>
                         <a href="{{ route('ventas.show', $sale) }}" class="btn btn-success btn-xs mr-2"
                             title="Ver"><i class="far fa-eye"></i></a>
-                        <a href="#" wire:click='edit({{ $sale->id }})' class="btn btn-primary btn-xs mr-2"
+                        <a href="{{ route('ventas.edit', $sale) }}" class="btn btn-primary btn-xs mr-2"
                             title="Editar"><i class="far fa-edit"></i></a>
                         <a wire:click="$dispatch('delete',{id: {{ $sale->id }}, eventName:'destroySale'})"
                             class="btn btn-danger btn-xs" title="Eliminar"><i class="far fa-trash-alt"></i></a>
