@@ -44,21 +44,23 @@ class SaleEdit extends Component
             //buscamos el producto en la db
             $producto = Product::find($item->product_id);
 
-            dd(Cart::instance(userID())->content());
+            Cart::instance(userID())->add($producto->id, $item->name, $item->qty, $item->price)->associate($producto);
 
-            //verificamos que no exista el item en el carrito
-            $this->buscarId = $item->id;
+            // dd(Cart::instance(userID()));
 
-            $existeItem = Cart::instance(userID())->search(function ($cartItem, $buscarId) {
-                return $cartItem->id === $this->buscarId;
-            });
+            // //verificamos que no exista el item en el carrito
+            // $this->buscarId = $item->id;
 
-            if ($existeItem) {
-                return;
-            } else {
-                //si no existe lo agregamos
-                Cart::instance(userID())->add($producto->id, $item->name, $item->qty, $item->price)->associate($producto);
-            }
+            // $existeItem = Cart::instance(userID())->search(function ($cartItem, $buscarId) {
+            //     return $cartItem->id === $this->buscarId;
+            // });
+
+            // if ($existeItem) {
+            //     return;
+            // } else {
+            //     //si no existe lo agregamos
+            //     Cart::instance(userID())->add($producto->id, $item->name, $item->qty, $item->price)->associate($producto);
+            // }
         }
 
         $this->cart = $this->getCart();
