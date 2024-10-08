@@ -25,6 +25,9 @@
 
         @include('home.boxes_reports')
 
+        {{-- tablas reportes productos--}}
+        @include('home.tables_reports')
+
     </x-card>
 
 </div>
