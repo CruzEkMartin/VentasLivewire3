@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Sale;
 
+use App\Models\Item;
 use App\Models\Sale;
 use App\Models\Product;
 use Livewire\Component;
@@ -45,8 +46,54 @@ class SaleEdit extends Component
     }
 
 
-    public function editSale(){
-        dd('editar');
+    public function editSale()
+    {
+        //calculamos el total de la venta
+        $this->sale->total = $this->getTotal();
+
+        //asignamos el pago
+        $this->sale->pago = $this->sale->total;
+
+        //actualizamos
+        $this->sale->update();
+
+        //creamos un array para guardar los items actualizados en la tabla intermedia
+        $itemsIds = [];
+
+        //borramos todos los items que están asociados a la venta
+        foreach ($this->sale->items as $item) {
+            //devolvemos la cantidad al stock
+            Product::find($item->product_id)->increment('stock', $item->qty);
+            //eliminamos el item
+            $item->delete();
+        }
+
+        //recorremos el carrito con los items actualizados
+        foreach ($this->getCart() as $producto) {
+            //guardamos los items
+            $item = new Item();
+            $item->name = $producto->name;
+            $item->price = $producto->price;
+            $item->qty = $producto->qty;
+            $item->image = $producto->model->imagen;
+            $item->product_id = $producto->id;
+            $item->fecha = date('Y-m-d');
+            $item->save();
+
+             //restamos el stock
+             Product::find($item->product_id)->decrement('stock', $item->qty);
+
+            //guardamos los items en la tabla intermedia
+            $itemsIds += [$item->id => ["qty" => $producto->qty, "fecha" => date('Y-m-d')]];
+        }
+
+        //sincronizamos la tabla intermedia
+        $this->sale->items()->sync($itemsIds);
+
+        //enviamos el mensaje con el id para generar la nota de venta
+        $this->dispatch('msg', 'Venta editada correctamente ', 'success', $this->sale->id);
+
+
     }
 
     //agregar producto al carrito
@@ -55,6 +102,7 @@ class SaleEdit extends Component
     {
         Cart::instance(userID())->add($producto->id, $producto->name, 1, $producto->precio_venta)->associate($producto);
     }
+
 
 
     //decrementar cantidad
