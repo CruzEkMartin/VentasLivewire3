@@ -4,14 +4,16 @@
         <div class="card-tools">
             <!-- Conteo de productos -->
             <i class="fas fa-tshirt " title="Numero productos"></i>
-            <span class="badge badge-pill bg-purple ">{{ $cart->count(true) }} </span>
+            <span class="badge badge-pill bg-purple ">{{ $totalProductos }} </span>
             <!-- Conteo de articulos -->
             <i class="fas fa-shopping-basket ml-2 ml-2" title="Numero items"></i>
-            <span class="badge badge-pill bg-purple">{{ $articulos }} </span>
+            <span class="badge badge-pill bg-purple">{{ $totalArticulos }} </span>
 
             {{-- Boton crear venta --}}
 
-            <button wire:click='createSale' class="btn bg-purple ml-2"> <i class="fas fa-cart-plus"></i> Crear Venta</button>
+            <button wire:click="{{ isset($sale) ? 'editSale' : 'createSale' }}" class="btn bg-purple ml-2"> <i class="fas fa-cart-plus mr-2"></i>
+                {{ isset($sale) ? 'Editar Venta' : 'Crear Venta'}}
+                 </button>
         </div>
     </div>
     <!-- card-body -->
@@ -33,40 +35,42 @@
                 <tbody>
 
 
-                    @forelse ($cart as $producto)
+                    @forelse ($cart as $product)
                         <tr>
-                            <td>{{ $producto->id }}</td>
+
+
+                            <td>{{ $product->id }}</td>
                             <td>
-                                <x-image :item="$producto->model" size="60" />
+                                <x-image :item="$product->model" size="60" />
 
                             </td>
-                            <td>{{ $producto->name }}</td>
-                            <td>{!! $producto->model->precio !!}</td>
+                            <td>{{ $product->name }}</td>
+                            <td>{!! $product->model->precio !!}</td>
                             <td>
                                 <!-- Botones para aumentar o disminuir la cantidad del producto en el carrito -->
-                                <button wire:click="decrementar('{{ $producto->rowId }}')"
+                                <button wire:click="decrementar('{{ $product->rowId }}')"
                                     wire:loading.attr = 'disabled'
                                     wire:target = 'decrementar'
                                     class="btn btn-primary btn-xs">
                                     -
                                 </button>
 
-                                <span class="mx-1">{{ $producto->qty }}</span>
+                                <span class="mx-1">{{ $product->qty }}</span>
 
-                                <button wire:click="incrementar('{{ $producto->rowId }}')"
+                                <button wire:click="incrementar('{{ $product->rowId }}')"
                                     class="btn btn-primary btn-xs"
                                     wire:loading.attr = 'disabled'
                                     wire:target = 'incrementar'
-                                    {{ $producto->qty >= $producto->model->stock ? 'disabled' : ''}}
+                                    {{ $product->qty >= $product->model->stock ? 'disabled' : ''}}
                                     >
                                     +
                                 </button>
 
                             </td>
-                            <td>{{ money($producto->qty * $producto->price) }}</td>
+                            <td>{{ money($product->qty * $product->price) }}</td>
                             <td>
                                 <!-- Boton para eliminar el producto del carrito -->
-                                <button wire:click="removeItem('{{ $producto->rowId }}', {{ $producto->qty }})" class="btn btn-danger btn-xs" title="Eliminar">
+                                <button wire:click="removeItem('{{ $product->rowId }}', {{ $product->qty }})" class="btn btn-danger btn-xs" title="Eliminar">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

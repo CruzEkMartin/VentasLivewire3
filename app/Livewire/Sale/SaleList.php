@@ -30,7 +30,7 @@ class SaleList extends Component
     public function render()
     {
 
-        Cart::instance(userID())->destroy();
+
 
         if ($this->search != '') {
             $this->resetPage();

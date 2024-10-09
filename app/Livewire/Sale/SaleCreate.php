@@ -57,8 +57,14 @@ class SaleCreate extends Component
             'productos' => $this->productos,
             'cart' => $this->getCart(),
             'total' => $this->getTotal(),
-            'articulos' => $this->totalArticulos()
+            'totalArticulos' => $this->totalArticulos(),
+            'totalProductos' => $this->totalProductos()
         ]);
+    }
+
+    public function mount(){
+         // Limpiar el carrito en caso de que exista
+         Cart::instance(userID())->destroy();
     }
 
     //crear venta
@@ -152,8 +158,10 @@ class SaleCreate extends Component
     public function getCart()
     {
         //dd(Cart::instance(userID())->content());
-        $cart = Cart::instance(userID())->content();
-        return $cart->sort();
+        $cart = Cart::instance(userID())->content()->sortByDesc(function ($item) {
+            return $item->id;
+        });
+        return $cart; //->sort();
     }
 
     //devolver total
@@ -233,6 +241,12 @@ class SaleCreate extends Component
     public function totalArticulos()
     {
         return Cart::instance(userID())->count(false);
+    }
+
+    //total de productos
+    public function totalProductos()
+    {
+        return Cart::instance(userID())->content()->count(false);
     }
 
 

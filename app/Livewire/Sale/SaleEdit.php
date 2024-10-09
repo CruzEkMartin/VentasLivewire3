@@ -5,12 +5,13 @@ namespace App\Livewire\Sale;
 use App\Models\Sale;
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
-#[Title('Editar Venta')]
+#[Title('Ventas')]
 class SaleEdit extends Component
 {
     public Sale $sale;
@@ -22,61 +23,137 @@ class SaleEdit extends Component
     public $totalRegistros = 0;
     public $cant = 5;
 
-    public $cart = 0;
-    public $buscarId = null;
+    public $buscaId = null;
 
     public function render()
     {
-        $this->getItemsToCart();
 
         return view('livewire.sale.sale-edit', [
-            'productos' => $this->productos,
+            'productos' => $this->productos, //funcion computada de productos
             'total' => $this->getTotal(),
-            'articulos' => $this->totalArticulos()
+            'cart' => $this->getCart(),
+            'totalArticulos' => $this->totalArticulos(),
+            'totalProductos' => $this->totalProductos()
         ]);
     }
 
-    public function getItemsToCart()
-    {
-        foreach ($this->sale->items as $item) {
-
-            //dd($item); id:13 y product_id:250
-            //buscamos el producto en la db
-            $producto = Product::find($item->product_id);
-
-            Cart::instance(userID())->add($producto->id, $item->name, $item->qty, $item->price)->associate($producto);
-
-            // dd(Cart::instance(userID()));
-
-            // //verificamos que no exista el item en el carrito
-            // $this->buscarId = $item->id;
-
-            // $existeItem = Cart::instance(userID())->search(function ($cartItem, $buscarId) {
-            //     return $cartItem->id === $this->buscarId;
-            // });
-
-            // if ($existeItem) {
-            //     return;
-            // } else {
-            //     //si no existe lo agregamos
-            //     Cart::instance(userID())->add($producto->id, $item->name, $item->qty, $item->price)->associate($producto);
-            // }
-        }
-
-        $this->cart = $this->getCart();
-    }
 
     public function mount()
     {
-        //$this->cart = collect();
+        //cargamos la venta
+        $this->getItemsToCart();
     }
+
+
+    public function editSale(){
+        dd('editar');
+    }
+
+    //agregar producto al carrito
+    #[On('add-product')]
+    public function addProducto(Product $producto)
+    {
+        Cart::instance(userID())->add($producto->id, $producto->name, 1, $producto->precio_venta)->associate($producto);
+    }
+
+
+    //decrementar cantidad
+    public function decrementar($rowId)
+    {
+        //dd($rowId);
+
+        $item =  Cart::instance(userID())->get($rowId);
+
+        if ($item->qty > 1) {
+            Cart::instance(userID())->update($rowId, $item->qty - 1);
+
+            //emitimos un evento para disminuir el stock del listado, se escucha en Sales.ProductoRow
+            $this->dispatch("incrementStock.{$item->id}");
+        }
+    }
+
+    //decrementar cantidad
+    public function incrementar($rowId)
+    {
+        //dd($rowId);
+        $item =  Cart::instance(userID())->get($rowId);
+        //dd($item);
+
+        Cart::instance(userID())->update($rowId, $item->qty + 1);
+
+        //emitimos un evento para disminuir el stock del listado, se escucha en Sales.ProductoRow
+        $this->dispatch("decrementStock.{$item->id}");
+    }
+
+
+    //eliminar producto
+    public function removeItem($rowId, $qty)
+    {
+
+        $item =  Cart::instance(userID())->get($rowId);
+
+        Cart::instance(userID())->remove($rowId);
+
+        $this->dispatch("devolverStock.{$item->id}", $qty);
+    }
+
+
+    public function getItemsToCart()
+    {
+
+        // Limpiar el carrito antes de cargar la venta
+        Cart::instance(userID())->destroy();
+
+        //recorremos cada producto de la venta y lo metemos al carrito
+        foreach ($this->sale->items as $item) {
+
+            //buscamos el producto en la db
+            $producto = Product::find($item->product_id);
+
+            // Cart::instance(userID())->add($producto->id, $producto->name, $item->qty, $item->price)->associate($producto);
+
+            // Busca el ítem en el carrito
+            $this->buscaId = $producto->id;
+
+            $existingItem = Cart::instance(userID())->search(function ($cartItem) {
+                return $cartItem->id === $this->buscaId; // Cambia el criterio si es necesario
+            })->first();
+
+            //si existe no hacemos nada, si no existe lo agregamos
+            if ($existingItem) {
+                return;
+            } else {
+                Cart::instance(userID())->add($producto->id, $producto->name, $item->qty, $item->price)->associate($producto);
+            }
+        }
+
+        //dd(Cart::instance(userID())->content());
+
+
+    }
+
 
     //obtener el contenido del carrito
     public function getCart()
     {
-        //dd(Cart::instance(userID())->content());
-        $cart = Cart::instance(userID())->content();
-        return $cart->sort();
+        $cart = Cart::instance(userID())->content()->sortByDesc(function ($item) {
+            return $item->id;
+        });
+        return $cart; //->sort('id');
+
+        // //convertimos en un array simple para poderlo mostrar y no salga error Property type not supported in Livewire for property:
+        // $cart = Cart::instance(userID())->content()->map(function ($item) {
+        //     return [
+        //         'rowId' => $item->rowId,
+        //         'id' => $item->id,
+        //         'name' => $item->name,
+        //         'qty' => $item->qty,
+        //         'price' => $item->price,
+
+        //     ];
+        // })->toArray();
+        // return $cart;
+
     }
 
 
@@ -93,6 +170,12 @@ class SaleEdit extends Component
     public function totalArticulos()
     {
         return Cart::instance(userID())->count(false);
+    }
+
+    //total de productos
+    public function totalProductos()
+    {
+        return Cart::instance(userID())->content()->count(false);
     }
 
     public function getTotal()
