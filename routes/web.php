@@ -39,24 +39,24 @@ Auth::routes(['register'=>false]);
 
 
 Route::get('/', Inicio::class)->name('home')->middleware(['auth']);
-Route::get('/categorias', CategoryComponent::class)->name('categorias')->middleware(['auth']);
-Route::get('/categorias/show/{category}', CategoryShow::class)->name('categorias.show')->middleware(['auth']);
+Route::get('/categorias', CategoryComponent::class)->name('categorias')->middleware(['auth', 'admin']);
+Route::get('/categorias/show/{category}', CategoryShow::class)->name('categorias.show')->middleware(['auth', 'admin']);
 
-Route::get('/productos', ProductComponent::class)->name('productos')->middleware(['auth']);
-Route::get('/productos/show/{producto}', ProductShow::class)->name('productos.show')->middleware(['auth']);
+Route::get('/productos', ProductComponent::class)->name('productos')->middleware(['auth', 'admin']);
+Route::get('/productos/show/{producto}', ProductShow::class)->name('productos.show')->middleware(['auth', 'admin']);
 
-Route::get('/usuarios', UserComponent::class)->name('usuarios')->middleware(['auth']);
+Route::get('/usuarios', UserComponent::class)->name('usuarios')->middleware(['auth', 'admin']);
 Route::get('/usuarios/show/{usuario}', UserShow::class)->name('usuarios.show')->middleware(['auth']);
 
-Route::get('/clientes', ClientComponent::class)->name('clientes')->middleware(['auth']);
-Route::get('/clientes/show/{cliente}', ClientShow::class)->name('clientes.show')->middleware(['auth']);
+Route::get('/clientes', ClientComponent::class)->name('clientes')->middleware(['auth', 'admin']);
+Route::get('/clientes/show/{cliente}', ClientShow::class)->name('clientes.show')->middleware(['auth', 'admin']);
 
 Route::get('/ventas/crear', SaleCreate::class)->name('ventas.create')->middleware(['auth']);
-Route::get('/ventas', SaleList::class)->name('ventas.list')->middleware(['auth']);
+Route::get('/ventas', SaleList::class)->name('ventas.list')->middleware(['auth', 'admin']);
 Route::get('/ventas/show/{sale}', SaleShow::class)->name('ventas.show')->middleware(['auth']);
-Route::get('/ventas/edit/{sale}', SaleEdit::class)->name('ventas.edit')->middleware(['auth']);
+Route::get('/ventas/edit/{sale}', SaleEdit::class)->name('ventas.edit')->middleware(['auth', 'admin']);
 
-Route::get('/tienda', ShopComponent::class)->name('tienda')->middleware(['auth']);
+Route::get('/tienda', ShopComponent::class)->name('tienda')->middleware(['auth', 'admin']);
 
 
 Route::get('/ventas/invoice/{sale}', [PdfController::class, 'invoice'])->name('ventas.invoice')->middleware(['auth']);

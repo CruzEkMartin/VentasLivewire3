@@ -20,3 +20,9 @@ function money($number){
 function numerosLetras($number){
 return NumerosEnLetras::convertir($number, 'pesos',false, 'centavos');
 }
+
+
+//verifica si es admin
+function isAdmin(){
+    return auth()->user()->admin;
+}

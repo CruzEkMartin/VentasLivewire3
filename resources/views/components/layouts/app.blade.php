@@ -58,13 +58,16 @@
 
 </head>
 
-<body class="hold-transition sidebar-collapse sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-collapse sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" id="body">
     <div class="wrapper">
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
-                height="60" width="60">
+            {{-- <img class="animation__wobble" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
+                height="60" width="60"> --}}
+                <div class="spinner-border text-info" style="width: 4rem; height: 4rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
         </div>
 
         <!-- Navbar -->

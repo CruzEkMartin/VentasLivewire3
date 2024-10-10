@@ -15,6 +15,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        //si es un vendedor lo regresamos al inicio
+        if (auth()->user()->admin == 0) {
+            return redirect('/');
+        }
+
         return $next($request);
     }
 }

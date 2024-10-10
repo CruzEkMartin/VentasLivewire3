@@ -10,7 +10,7 @@
         <div class="icon">
             <i class="fas fa-file-invoice-dollar"></i>
         </div>
-        <a href="" class="small-box-footer">Ir a ventas <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ route('ventas.list') }}" class="small-box-footer">Ir a ventas <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -25,7 +25,7 @@
         <div class="icon">
             <i class="fas fa-money-check-alt"></i>
         </div>
-        <a href="" class="small-box-footer">Ir a ventas <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ route('ventas.list') }}" class="small-box-footer">Ir a ventas <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -40,7 +40,7 @@
         <div class="icon">
             <i class="fas fa-shopping-basket"></i>
         </div>
-        <a href="" class="small-box-footer">Ir a ventas <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ route('ventas.list') }}" class="small-box-footer">Ir a ventas <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -55,7 +55,7 @@
         <div class="icon">
             <i class="fas fa-tshirt"></i>
         </div>
-        <a href="" class="small-box-footer">Ir a productos <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ route('ventas.list') }}" class="small-box-footer">Ir a ventas <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->

@@ -5,12 +5,12 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/" class="nav-link">
+            <a href="/" class="nav-link {{ $title=='Inicio' ? 'active' : '' }}">
                 <i class="fas fa-store mr-2"></i>
                 Inicio</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ route('ventas.create') }}" class="nav-link">
+            <a href="{{ route('ventas.create') }}" class="nav-link {{ $title=='Ventas' ? 'active' : '' }}">
                 <i class="fas fa-cart-plus mr-2"></i>
                 Crear venta</a>
         </li>
@@ -35,7 +35,7 @@
 
                     <p>
                         {{ auth()->user()->name }}
-                        <small>{{ auth()->user()->perfil ? 'Administrador' : 'Captura' }}</small>
+                        <small>{{ auth()->user()->admin ? 'Administrador' : 'Captura' }}</small>
                     </p>
                 </li>
                 <!-- Menu Body -->
@@ -55,6 +55,14 @@
                 </li>
             </ul>
         </li>
+
+        <li class="nav-item">
+           <label class="switch mt-2">
+            <input type="checkbox" id="checkDark">
+            <span id="darkIcon" class="text-white"></span>
+           </label>
+        </li>
+
 
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">

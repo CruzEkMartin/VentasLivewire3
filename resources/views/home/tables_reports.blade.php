@@ -46,7 +46,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10">Si Registros</td>
+                                    <td colspan="10">Sin Registros</td>
                                 </tr>
                             @endforelse
 
@@ -105,7 +105,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10">Si Registros</td>
+                                    <td colspan="10">Sin Registros</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -163,7 +163,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10">Si Registros</td>
+                                    <td colspan="10">Sin Registros</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -218,7 +218,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10">Si Registros</td>
+                                    <td colspan="10">Sin Registros</td>
                                 </tr>
                             @endforelse
                         </tbody>

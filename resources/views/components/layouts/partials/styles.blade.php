@@ -13,5 +13,7 @@
 <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
 <!-- Estilos Personalizados-->
 <link rel="stylesheet" href="{{asset('css/styles.css')}}">
+<!-- Estilos Modo Oscuro-->
+<link rel="stylesheet" href="{{asset('css/dark.css')}}">
 
 
